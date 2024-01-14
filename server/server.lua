@@ -70,8 +70,17 @@ local function addVehicleToPlayer(source, vehicle, shopIndex, selectIndex, payme
 
     hooks.onVehiclePurchase(vehicle.label, clientData.vehicleProperties.plate)
     dprint(('Purchase made! Player %s has purchased %s for %s'):format(source, vehicle.VEHICLE_MODEL, vehicle.VEHICLE_MODEL))
-    functions.log({['Vehicle model'] = vehicle.label, ['Price'] = vehicle.VEHICLE_PRICE, ['Plate'] = clientData.vehicleProperties.plate, ['Buyer'] = GetPlayerName(source), ['Player identifier'] = playerIdentifier, ['Payment type'] = paymentMethod, ['Spawned around shop'] = clientData.vehicleSpawnCoords and true})
+   functions.log({['Vehicle model'] = vehicle.label, ['Price'] = vehicle.VEHICLE_PRICE, ['Plate'] = clientData.vehicleProperties.plate, ['Buyer'] = GetPlayerName(source), ['Player identifier'] = playerIdentifier, ['Payment type'] = paymentMethod, ['Spawned around shop'] = clientData.vehicleSpawnCoords and true})
     
+   local source = source -- Source Player 
+   local action = 'add' -- 'add' or 'remove'
+   
+   -- Assuming clientData is defined somewhere
+   local plate = clientData.vehicleProperties.plate
+   
+   exports.mono_garage:InventoryKeys(action, { plate = plate, player = source })
+   
+
     return true, clientData.vehicleSpawnCoords and true, clientData.vehicleProperties.plate
 end
 
